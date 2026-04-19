@@ -1,0 +1,5 @@
+Options -Indexes
+# Redirect all traffic to public/
+RewriteEngine On
+RewriteRule ^$ public/ [L]
+RewriteRule ^((?!public/).*)$ public/$1 [L,QSA]

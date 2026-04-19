@@ -1,0 +1,32 @@
+# ── Ambiente ──────────────────────────────────────────
+.env
+
+# ── Dependências ──────────────────────────────────────
+vendor/
+node_modules/
+
+# ── Arquivos gerados em runtime ───────────────────────
+storage/logs/*.log
+storage/pdfs/*.pdf
+public/pdfs/
+*.cache
+
+# ── Arquivos de sistema ───────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDEs ──────────────────────────────────────────────
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ── PHP ───────────────────────────────────────────────
+*.phar
+
+# ── Arquivos sensíveis ────────────────────────────────
+database/migrate_reencrypt.php
+
+# ── Pasta de referências de design (não é código) ────
+MODELO-DESIGNER/
