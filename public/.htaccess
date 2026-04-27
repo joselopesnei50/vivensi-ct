@@ -1,9 +1,9 @@
 Options -Indexes
 RewriteEngine On
 
-# Força HTTPS em produção (descomente quando tiver certificado SSL)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Força HTTPS em produção
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Redirect all requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -17,11 +17,11 @@ Header always set X-XSS-Protection "1; mode=block"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 
-# HSTS — ativa apenas após ter HTTPS funcionando (descomente em produção)
-# Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+# HSTS
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 
 # Content-Security-Policy — permite CDNs usados pelo sistema
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self'; frame-ancestors 'none';"
 
 # Bloqueia acesso a arquivos sensíveis
 <FilesMatch "\.(env|sql|log|sh|bak|git)$">
