@@ -177,18 +177,10 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 -- =========================================
 
 -- Tenant padrão (demo)
-INSERT INTO tenants (nome, municipio, estado, email, plano) VALUES
-('Conselho Tutelar - Demo', 'São Paulo', 'SP', 'admin@guardiao.digital', 'profissional');
+-- Tenant e usuários de produção são criados via setup_superadmin.php
+-- NÃO inserir credenciais diretamente neste arquivo.
 
--- Super Admin
-INSERT INTO users (tenant_id, nome, email, password, role) VALUES
-(1, 'Super Administrador', 'admin@guardiao.digital', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'super_admin');
-
--- Conselheiro demo
-INSERT INTO users (tenant_id, nome, email, password, role, registro_funcional) VALUES
-(1, 'Maria Silva', 'conselheiro@guardiao.digital', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'conselheiro', 'CT-001/2024');
-
--- Rede de serviços demo
+-- Rede de serviços demo (referência — ajuste conforme o município)
 INSERT INTO rede_servicos (tenant_id, nome_servico, tipo_servico, tipificacao_suas, orgao_responsavel, telefone) VALUES
 (1, 'CRAS Centro', 'CRAS', 'Centro de Referência de Assistência Social', 'Secretaria de Assistência Social', '(11) 1234-5678'),
 (1, 'CREAS Municipal', 'CREAS', 'Centro de Referência Especializado de Assistência Social', 'Secretaria de Assistência Social', '(11) 1234-5679'),

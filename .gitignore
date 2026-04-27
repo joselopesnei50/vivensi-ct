@@ -27,6 +27,8 @@ desktop.ini
 
 # ── Arquivos sensíveis ────────────────────────────────
 database/migrate_reencrypt.php
+setup_superadmin.php
+public/uploads/comprovantes/
 
 # ── Pasta de referências de design (não é código) ────
 MODELO-DESIGNER/
