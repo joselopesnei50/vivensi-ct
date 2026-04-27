@@ -236,6 +236,7 @@ CREATE TABLE IF NOT EXISTS cadastros_pendentes (
     cidade VARCHAR(255) NOT NULL,
     endereco TEXT NOT NULL,
     ano_posse YEAR NOT NULL,
+    comprovante_arquivo VARCHAR(255) NULL,
     status ENUM('pendente','aprovado','rejeitado') DEFAULT 'pendente',
     aprovado_por INT NULL,
     data_aprovacao TIMESTAMP NULL,
@@ -270,3 +271,7 @@ CREATE TABLE IF NOT EXISTS chamados_suporte (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (respondido_por) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Migração v1.2 — Comprovante de posse no cadastro
+ALTER TABLE cadastros_pendentes
+    ADD COLUMN IF NOT EXISTS comprovante_arquivo VARCHAR(255) NULL AFTER ano_posse;

@@ -14,7 +14,7 @@ class AdminController
 {
     public function dashboard(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
 
         $tenants   = Database::select("SELECT t.*, COUNT(u.id) as total_users FROM tenants t LEFT JOIN users u ON u.tenant_id = t.id GROUP BY t.id ORDER BY t.created_at DESC");
         $users     = Database::select("SELECT u.*, t.nome as tenant_nome FROM users u LEFT JOIN tenants t ON t.id = u.tenant_id ORDER BY u.created_at DESC LIMIT 30");
@@ -93,7 +93,7 @@ class AdminController
 
     public function storeTenant(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         if (!Request::verifyCsrf()) { Flash::error('Token inválido.'); Request::redirect(url('/admin')); }
 
         Database::insert('tenants', [
@@ -113,7 +113,7 @@ class AdminController
 
     public function storeUser(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         if (!Request::verifyCsrf()) { Flash::error('Token inválido.'); Request::redirect(url('/admin')); }
 
         $email = filter_var(Request::post('email', ''), FILTER_SANITIZE_EMAIL);
@@ -156,7 +156,7 @@ class AdminController
 
     public function purgeDocuments(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         $pdfService = new PDFService();
         $count = $pdfService->purgeExpired();
         View::json(['success' => true, 'purged' => $count, 'message' => "{$count} documentos expirados removidos."]);
@@ -164,7 +164,7 @@ class AdminController
 
     public function toggleUser(string $id): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         $user = Database::selectOne("SELECT ativo FROM users WHERE id = ?", [$id]);
         if ($user) {
             $novoEstado = $user['ativo'] ? 0 : 1;
@@ -176,7 +176,7 @@ class AdminController
 
     public function aprovarCadastro(string $id): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         $acao   = Request::post('acao', 'aprovar');
         $status = $acao === 'aprovar' ? 'aprovado' : 'rejeitado';
 
@@ -206,7 +206,7 @@ class AdminController
 
     public function saveConfigs(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         if (!Request::verifyCsrf()) { Flash::error('Token inválido.'); Request::redirect(url('/admin')); }
 
         $keys = ['deepseek_key', 'gemini_key', 'brevo_key', 'abacatepay_key', 'whatsapp_number'];
@@ -225,7 +225,7 @@ class AdminController
 
     public function saveLegalPage(): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         if (!Request::verifyCsrf()) {
             Flash::error('Token inválido.');
             Request::redirect(url('/admin') . '?tab=paginas-legais');
@@ -255,7 +255,7 @@ class AdminController
 
     public function responderChamado(string $id): void
     {
-        Auth::requireAdmin();
+        Auth::requireSuperAdmin();
         if (!Request::verifyCsrf()) { Flash::error('Token inválido.'); Request::redirect(url('/admin')); }
 
         Database::update('chamados_suporte', [

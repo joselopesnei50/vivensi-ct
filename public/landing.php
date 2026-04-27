@@ -1350,7 +1350,7 @@ footer {
         Sistema Ativo
       </span>
       <span class="badge-free">
-        ✦ Grátis Para Sempre
+        Gratuito Para Conselhos Tutelares
       </span>
     </div>
 
@@ -1370,8 +1370,8 @@ footer {
 
     <!-- CTAs -->
     <div class="hero-btns">
-      <a href="login" class="btn-hero-white">🛡️ Acessar o Sistema</a>
-      <a href="#como-funciona" class="btn-hero-outline">▶ Como funciona</a>
+      <a href="login" class="btn-hero-white">Acessar o Sistema</a>
+      <a href="#como-funciona" class="btn-hero-outline">Como funciona</a>
     </div>
 
     <!-- Compliance Grid -->
@@ -1404,11 +1404,11 @@ footer {
         <div class="cc-desc">Tipificação Nacional<br>PAIF · PAEFI · CRAS · CREAS</div>
       </div>
 
-      <!-- IA -->
+      <!-- Bruce AI -->
       <div class="compliance-card">
-        <span class="cc-icon">🤖</span>
-        <div class="cc-title">IA Jurídica</div>
-        <div class="cc-desc">Análise em segundos<br>OpenAI · Gemini · DeepSeek</div>
+        <span class="cc-icon" style="font-size:18px;font-weight:900;color:#60a5fa;letter-spacing:-.5px;">Bruce AI</span>
+        <div class="cc-title">Análise Jurídica</div>
+        <div class="cc-desc">ECA · SUAS em segundos<br>Bruce AI — Motor interno</div>
       </div>
 
     </div>
@@ -1416,11 +1416,41 @@ footer {
   </div>
 </div>
 
+<!-- ═══ COMO FUNCIONA ═══ -->
+<section id="como-funciona" class="how-section">
+  <div class="reveal">
+    <div class="s-label">Processo</div>
+    <h2 class="s-title">De 0 ao encaminhamento<br>em 3 passos.</h2>
+    <p class="s-sub">Bruce AI faz o trabalho jurídico. Você faz o que importa: proteger a criança.</p>
+  </div>
+
+  <div class="steps-grid reveal">
+    <div class="step-card">
+      <div class="step-num-bg">01</div>
+      <div class="step-icon" style="font-size:13px;font-weight:900;color:#60a5fa;letter-spacing:-.3px;">REG</div>
+      <h3>Registre o Caso</h3>
+      <p>Insira o relato da visita e o levantamento preliminar. Os dados sensíveis são criptografados automaticamente conforme a LGPD, garantindo total segurança.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num-bg">02</div>
+      <div class="step-icon" style="font-size:13px;font-weight:900;color:#60a5fa;letter-spacing:-.3px;">IA</div>
+      <h3>Bruce AI Analisa o ECA/SUAS</h3>
+      <p>O sistema cruza o caso com o Estatuto da Criança e a Tipificação Nacional SUAS. Gera análise de leis, fluxo de encaminhamentos, medidas e mapa mental em segundos.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num-bg">03</div>
+      <div class="step-icon" style="font-size:13px;font-weight:900;color:#60a5fa;letter-spacing:-.3px;">DOC</div>
+      <h3>Documente e Assine</h3>
+      <p>Gere minutas de relatórios e ofícios. Colete assinatura digital na tela (mobile). O documento é salvo com validade jurídica e removido automaticamente após 3 dias.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ BRUCE AI — MAPA MENTAL ═══ -->
 <section class="bruce-section" id="bruce">
 
   <div class="reveal" style="text-align:center;max-width:760px;margin:0 auto 56px;">
-    <div class="s-label" style="justify-content:center;">🤖 Bruce AI — O Coração do Sistema</div>
+    <div class="s-label" style="justify-content:center;">Bruce AI — O Coração do Sistema</div>
     <h2 class="s-title" style="text-align:center;max-width:100%;">Um caso registrado.<br>Um mapa mental gerado<br><span style="color:var(--blue-mid);">em segundos.</span></h2>
     <p class="s-sub" style="text-align:center;max-width:580px;margin:0 auto;">
       A Bruce AI analisa o relato do Conselheiro, cruza com ECA, SUAS e Lei Henry Borel,
@@ -1552,51 +1582,51 @@ footer {
     <div class="trust-item"><div class="trust-icon ti-blue">🏛️</div> SUAS — LOAS 8.742/93</div>
     <div class="trust-item"><div class="trust-icon ti-red">🔒</div> LGPD — Lei 13.709/18</div>
     <div class="trust-item"><div class="trust-icon ti-yellow">✍️</div> Lei 14.063/20</div>
-    <div class="trust-item"><div class="trust-icon ti-purple">🤖</div> IA — OpenAI / Gemini</div>
+    <div class="trust-item"><div class="trust-icon ti-purple" style="font-size:11px;font-weight:900;letter-spacing:-.3px;">AI</div> Bruce AI</div>
   </div>
 </div>
 
 <!-- ═══ RECURSOS ═══ -->
 <section id="recursos" class="feat-section">
   <div class="reveal">
-    <div class="s-label">✦ Recursos</div>
+    <div class="s-label">Recursos</div>
     <h2 class="s-title">Tudo que o Conselheiro precisa,<br>em um só lugar.</h2>
     <p class="s-sub">Do registro ao documento assinado — com inteligência artificial fundamentada em lei.</p>
   </div>
 
   <div class="feat-grid reveal">
     <div class="feat-card">
-      <div class="feat-icon-wrap">🤖</div>
+      <div class="feat-icon-wrap" style="font-size:13px;font-weight:900;color:#1d4ed8;letter-spacing:-.5px;">IA</div>
       <h3>Análise de legislação com Bruce AI</h3>
       <p>Bruce AI cruza o relato da visita com o ECA e a Tipificação Nacional SUAS, indicando artigos específicos, encaminhamentos e medidas fundamentadas em lei.</p>
-      <span class="feat-tag">OpenAI · Gemini · DeepSeek</span>
+      <span class="feat-tag">Bruce AI — Motor Interno</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon-wrap">📍</div>
+      <div class="feat-icon-wrap" style="font-size:13px;font-weight:900;color:#1d4ed8;letter-spacing:-.5px;">ENC</div>
       <h3>Fluxo de Encaminhamento</h3>
       <p>Fluxo completo com órgãos prioritários, urgência, artigo do ECA aplicável e o que solicitar em cada serviço da rede SUAS.</p>
       <span class="feat-tag">ECA Art. 101 · SUAS</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon-wrap">🗺️</div>
+      <div class="feat-icon-wrap" style="font-size:13px;font-weight:900;color:#1d4ed8;letter-spacing:-.5px;">MAP</div>
       <h3>Mapa Mental Interativo</h3>
       <p>Visualização do caso em mapa mental gerado automaticamente com Mermaid.js. Facilita o entendimento do fluxo e o planejamento das intervenções.</p>
       <span class="feat-tag">Mermaid.js · Auto-gerado</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon-wrap">✍️</div>
+      <div class="feat-icon-wrap" style="font-size:13px;font-weight:900;color:#1d4ed8;letter-spacing:-.5px;">ASS</div>
       <h3>Assinatura Digital</h3>
       <p>Coleta de assinatura na tela via touch ou mouse. Mobile-friendly. Documentos gerados com assinatura embutida e validade jurídica pela Lei 14.063/20.</p>
       <span class="feat-tag">Mobile · Lei 14.063/20</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon-wrap">📄</div>
+      <div class="feat-icon-wrap" style="font-size:13px;font-weight:900;color:#1d4ed8;letter-spacing:-.5px;">DOC</div>
       <h3>Automação Documental</h3>
       <p>Minutas automáticas de relatórios, ofícios de encaminhamento e termos de medidas de proteção. Templates baseados nos modelos do CONANDA.</p>
       <span class="feat-tag">Relatórios · Ofícios</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon-wrap">🔐</div>
+      <div class="feat-icon-wrap" style="font-size:11px;font-weight:900;color:#1d4ed8;letter-spacing:-.3px;">LGPD</div>
       <h3>Segurança & LGPD Total</h3>
       <p>Dados de crianças criptografados com AES-128-CBC. Expurgo automático de documentos após 3 dias. Log de auditoria. Multi-tenancy seguro.</p>
       <span class="feat-tag">LGPD · AES · Audit Log</span>
@@ -1607,7 +1637,7 @@ footer {
 <!-- ═══ MOCKUP ═══ -->
 <section class="mockup-section">
   <div style="text-align:center;" class="reveal">
-    <div class="s-label" style="justify-content:center;">✦ Interface</div>
+    <div class="s-label" style="justify-content:center;">Interface</div>
     <h2 class="s-title" style="max-width:100%;text-align:center;">Projetado para a rotina<br>do Conselheiro(a) Tutelar.</h2>
   </div>
 
@@ -1689,39 +1719,9 @@ footer {
   </div>
 </section>
 
-<!-- ═══ COMO FUNCIONA ═══ -->
-<section id="como-funciona" class="how-section">
-  <div class="reveal">
-    <div class="s-label">✦ Processo</div>
-    <h2 class="s-title">De 0 ao encaminhamento<br>em 3 passos.</h2>
-    <p class="s-sub">A IA faz o trabalho jurídico. Você faz o que importa: proteger a criança.</p>
-  </div>
-
-  <div class="steps-grid reveal">
-    <div class="step-card">
-      <div class="step-num-bg">01</div>
-      <div class="step-icon">📝</div>
-      <h3>Registre o Caso</h3>
-      <p>Insira o relato da visita e o levantamento preliminar. Os dados sensíveis são criptografados automaticamente conforme a LGPD, garantindo total segurança.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num-bg">02</div>
-      <div class="step-icon">🤖</div>
-      <h3>IA Analisa o ECA/SUAS</h3>
-      <p>O sistema cruza o caso com o Estatuto da Criança e a Tipificação Nacional SUAS. Gera análise de leis, fluxo de encaminhamentos, medidas e mapa mental em segundos.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num-bg">03</div>
-      <div class="step-icon">📄</div>
-      <h3>Documente e Assine</h3>
-      <p>Gere minutas de relatórios e ofícios. Colete assinatura digital na tela (mobile). O documento é salvo com validade jurídica e removido automaticamente após 3 dias.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ NÚMEROS ═══ -->
 <section class="nums-section">
-  <div class="s-label reveal" style="justify-content:center;">✦ Impacto</div>
+  <div class="s-label reveal" style="justify-content:center;">Impacto</div>
   <h2 class="s-title reveal">Construído para fazer diferença.</h2>
   <div class="nums-grid reveal">
     <div class="num-card">
@@ -1747,7 +1747,7 @@ footer {
 <!-- ═══ BASE LEGAL ═══ -->
 <section id="legal" class="legal-section">
   <div class="reveal">
-    <div class="s-label">✦ Base Jurídica</div>
+    <div class="s-label">Base Jurídica</div>
     <h2 class="s-title">Fundamentado na lei.<br>Desenvolvido para o Brasil.</h2>
     <p class="s-sub">Cada sugestão da IA cita o artigo específico. Nada de achismos — só legislação vigente e técnica socioassistencial.</p>
   </div>

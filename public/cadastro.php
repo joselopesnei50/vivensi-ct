@@ -71,6 +71,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $erros[] = 'Ano de posse inválido.';
         }
 
+        // Upload do comprovante
+        $comprovanteArquivo = '';
+        if (empty($erros)) {
+            if (empty($_FILES['comprovante']['name'])) {
+                $erros[] = 'O comprovante de posse ou documento do cargo é obrigatório.';
+            } else {
+                $file     = $_FILES['comprovante'];
+                $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $allowed  = ['pdf', 'jpg', 'jpeg', 'png'];
+                $maxSize  = 5 * 1024 * 1024; // 5MB
+
+                if (!in_array($ext, $allowed)) {
+                    $erros[] = 'Formato de arquivo não permitido. Use PDF, JPG ou PNG.';
+                } elseif ($file['size'] > $maxSize) {
+                    $erros[] = 'Arquivo muito grande. Máximo: 5MB.';
+                } elseif ($file['error'] !== UPLOAD_ERR_OK) {
+                    $erros[] = 'Erro no upload do arquivo. Tente novamente.';
+                } else {
+                    $uploadDir = __DIR__ . '/uploads/comprovantes/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+                    $newName = bin2hex(random_bytes(16)) . '.' . $ext;
+                    if (!move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
+                        $erros[] = 'Não foi possível salvar o arquivo. Tente novamente.';
+                    } else {
+                        $comprovanteArquivo = $newName;
+                    }
+                }
+            }
+        }
+
         if (empty($erros)) {
             try {
                 $db = dbConnect();
@@ -83,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $ins = $db->prepare("
                         INSERT INTO cadastros_pendentes
-                            (nome, cpf, data_nascimento, email, telefone, cidade, endereco, ano_posse)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                            (nome, cpf, data_nascimento, email, telefone, cidade, endereco, ano_posse, comprovante_arquivo)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ");
                     $ins->execute([
                         $nome,
@@ -95,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $cidade,
                         $endereco,
                         $ano_posse,
+                        $comprovanteArquivo,
                     ]);
 
                     // Monta link WhatsApp Business para contato da administração
@@ -591,9 +624,20 @@ textarea { resize: vertical; min-height: 72px; }
   <div class="side-right">
     <div class="form-card">
 
+      <!-- Banner Lista de Espera -->
+      <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(239,68,68,0.08));border:1.5px solid rgba(245,158,11,0.4);border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="font-size:22px;flex-shrink:0;">⏳</div>
+        <div>
+          <div style="font-size:13px;font-weight:800;color:#92400e;margin-bottom:4px;letter-spacing:-.2px;">Vagas Limitadas — Lista de Espera Ativa</div>
+          <div style="font-size:12px;color:#78350f;line-height:1.6;">
+            O acesso é individual e exclusivo para Conselheiros Tutelares. Seu cadastro entrará na <strong>lista de espera</strong> e será aprovado conforme disponibilidade. Após aprovação, você receberá as credenciais de acesso por <strong>e-mail</strong>.
+          </div>
+        </div>
+      </div>
+
       <div class="fc-header">
-        <h2>Cadastrar Conselho Tutelar</h2>
-        <p>Preencha seus dados. Após a revisão, enviaremos seu acesso por WhatsApp.</p>
+        <h2>Solicitar Acesso — Conselheiro Tutelar</h2>
+        <p>Cada Conselheiro possui sua conta individual. Preencha seus dados e anexe o comprovante de posse ou documento que comprove seu cargo.</p>
       </div>
 
       <?php if ($sucesso): ?>
@@ -602,12 +646,12 @@ textarea { resize: vertical; min-height: 72px; }
         <div class="alert-success">
           <div class="alert-success-icon">✅</div>
           <div>
-            <h4>Cadastro enviado com sucesso!</h4>
+            <h4>Solicitação recebida com sucesso!</h4>
             <p>
-              Seus dados foram recebidos e estão em análise pela equipe VivensiCT.
-              Em breve você receberá uma mensagem via WhatsApp com as instruções de acesso.
+              Sua solicitação foi registrada e entrou na <strong>lista de espera</strong> para análise pela equipe VivensiCT.
+              Após aprovação e verificação do seu comprovante, você receberá as <strong>credenciais de acesso por e-mail</strong>.
               <br><br>
-              <strong>Status:</strong> Pendente de aprovação
+              <strong>Status:</strong> Em lista de espera — aguardando aprovação
             </p>
           </div>
         </div>
@@ -634,7 +678,7 @@ textarea { resize: vertical; min-height: 72px; }
           </div>
         <?php endif; ?>
 
-        <form method="POST" action="" novalidate>
+        <form method="POST" action="" novalidate enctype="multipart/form-data">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf, ENT_QUOTES, 'UTF-8') ?>">
 
           <!-- Nome -->
@@ -703,9 +747,20 @@ textarea { resize: vertical; min-height: 72px; }
                       required><?= htmlspecialchars($_POST['endereco'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
           </div>
 
+          <!-- Comprovante de Posse -->
+          <div class="form-group">
+            <label for="comprovante">Comprovante de Posse / Documento do Cargo *</label>
+            <div style="border:2px dashed #dbe6ff;border-radius:10px;padding:20px;text-align:center;background:#f0f4ff;cursor:pointer;transition:all .2s;" id="uploadArea" onclick="document.getElementById('comprovante').click()">
+              <div style="font-size:28px;margin-bottom:8px;color:#93a8cc;" id="uploadIcon">+</div>
+              <div style="font-size:13px;font-weight:700;color:#1e3a5f;" id="uploadLabel">Clique para anexar o documento</div>
+              <div style="font-size:11px;color:#93a8cc;margin-top:4px;">Portaria de posse, ata de eleição, declaração da prefeitura ou equivalente — PDF, JPG, PNG (máx. 5MB)</div>
+            </div>
+            <input type="file" id="comprovante" name="comprovante" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" required>
+          </div>
+
           <!-- Botão submit -->
           <button type="submit" class="btn-submit">
-            🛡️ Enviar Cadastro para Análise
+            Solicitar Cadastro para Análise
           </button>
 
           <div class="divider">ou</div>
@@ -741,6 +796,22 @@ document.getElementById('cpf')?.addEventListener('input', function(){
         .replace(/(\d{3})\.(\d{3})(\d)/,'$1.$2.$3')
         .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/,'$1.$2.$3-$4');
   this.value = v;
+});
+
+// Upload feedback
+document.getElementById('comprovante')?.addEventListener('change', function(){
+  const area  = document.getElementById('uploadArea');
+  const icon  = document.getElementById('uploadIcon');
+  const label = document.getElementById('uploadLabel');
+  if (this.files && this.files[0]) {
+    const name = this.files[0].name;
+    area.style.borderColor  = '#10b981';
+    area.style.background   = 'rgba(16,185,129,0.06)';
+    icon.textContent  = '✓';
+    icon.style.color  = '#10b981';
+    label.textContent = name;
+    label.style.color = '#065f46';
+  }
 });
 
 // Máscara Telefone
