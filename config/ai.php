@@ -9,8 +9,8 @@ return [
     ],
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY', ''),
-        'model'   => 'gemini-pro',
-        'url'     => 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+        'model'   => 'gemini-1.5-flash',
+        'url'     => 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
     ],
     'deepseek' => [
         'api_key' => env('DEEPSEEK_API_KEY', ''),

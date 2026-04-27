@@ -59,9 +59,15 @@ class DashboardController
             [$tenantId]
         );
 
+        $redeServicos = Database::select(
+            "SELECT * FROM rede_servicos WHERE tenant_id = ? AND ativo = 1 ORDER BY nome_servico",
+            [$tenantId]
+        );
+
         View::render('dashboard/index', compact(
             'totalAtendimentos', 'totalUsuarios', 'totalTenants',
-            'abertos', 'urgentes', 'ultimosAtendimentos', 'docsExpirando'
+            'abertos', 'urgentes', 'ultimosAtendimentos', 'docsExpirando',
+            'redeServicos'
         ));
     }
 }

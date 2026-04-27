@@ -178,6 +178,114 @@ HTML;
     }
 
     /**
+     * Gera o documento HTML de uma Medida de Campo (avulsa, sem atendimento).
+     */
+    public function gerarMedidaCampo(array $doc, string $assinaturaBase64): string
+    {
+        $filename = 'mc_' . preg_replace('/[^a-z0-9]/i', '_', $doc['numero_doc']) . '_' . time() . '.html';
+        $filepath = $this->storagePath . '/' . $filename;
+
+        $numDoc      = htmlspecialchars($doc['numero_doc']);
+        $tipo        = htmlspecialchars($doc['tipo_medida']);
+        $artigo      = htmlspecialchars($doc['artigo_eca'] ?? '');
+        $nomeCrianca = htmlspecialchars($doc['nome_crianca'] ?? '');
+        $texto       = nl2br(htmlspecialchars($doc['texto_medida'] ?? ''));
+        $assinante   = htmlspecialchars($doc['assinante_nome'] ?? '');
+        $cargo       = htmlspecialchars($doc['assinante_cargo'] ?? 'Conselheiro(a) Tutelar');
+        $municipio   = htmlspecialchars($doc['municipio'] ?? '');
+        $tenant      = htmlspecialchars($doc['tenant_nome'] ?? 'Conselho Tutelar');
+        $data        = date('d/m/Y');
+        $hora        = date('H:i');
+
+        $sigHtml = $assinaturaBase64
+            ? "<img src='{$assinaturaBase64}' style='max-width:280px;display:block;margin:0 auto;' alt='Assinatura Digital'>"
+            : '<div style="width:280px;height:70px;border-bottom:2px solid #000;margin:0 auto;"></div>';
+
+        $html = <<<HTML
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Medida de Proteção — {$numDoc}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Times New Roman', serif; font-size: 12pt; color: #000; background: #fff; }
+  .page { max-width: 700px; margin: 0 auto; padding: 40px 50px; }
+  .header { text-align: center; border-bottom: 3px double #1a1a2e; padding-bottom: 18px; margin-bottom: 24px; }
+  .header .brasao { font-size: 36px; display: block; margin-bottom: 8px; }
+  .header h1 { font-size: 13pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+  .header h2 { font-size: 11pt; font-weight: normal; margin-top: 4px; }
+  .header .num-doc { margin-top: 10px; display: inline-block; background: #1a1a2e; color: #fff; padding: 4px 16px; border-radius: 4px; font-size: 10pt; font-weight: bold; letter-spacing: 1px; }
+  .secao { margin: 18px 0; }
+  .secao h3 { font-size: 11pt; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 4px; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .secao p { font-size: 11pt; line-height: 1.9; text-align: justify; }
+  .dados-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 10.5pt; }
+  .dado { padding: 4px 0; border-bottom: 1px solid #eee; }
+  .dado span { font-weight: bold; }
+  .assinatura-box { margin-top: 50px; text-align: center; page-break-inside: avoid; }
+  .assinatura-box p { font-size: 10.5pt; margin-top: 8px; }
+  .assinatura-box .nome-ass { font-weight: bold; font-size: 11pt; margin-top: 6px; }
+  .assinatura-box .cargo-ass { font-size: 10pt; color: #444; }
+  .badge-legal { display: inline-block; background: #f0f4ff; border: 1px solid #1a1a2e; color: #1a1a2e; padding: 3px 10px; border-radius: 4px; font-size: 9.5pt; font-weight: bold; margin: 2px; }
+  .footer { margin-top: 36px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 8.5pt; color: #666; text-align: center; }
+  .alerta-lgpd { background: #fffbea; border: 1px solid #f59e0b; padding: 8px 12px; border-radius: 4px; font-size: 8.5pt; color: #78350f; margin-top: 12px; }
+  @media print {
+    .page { padding: 20px 30px; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <span class="brasao">⚖️</span>
+    <h1>{$tenant}</h1>
+    <h2>{$municipio} — Sistema Guardião Digital</h2>
+    <div class="num-doc">DOC Nº {$numDoc}</div>
+  </div>
+
+  <div class="secao">
+    <h3>🛡️ Medida de Proteção — {$tipo}</h3>
+    <div class="dados-grid">
+      <div class="dado"><span>Base Legal:</span> <span class="badge-legal">{$artigo}</span></div>
+      <div class="dado"><span>Data de Emissão:</span> {$data} às {$hora}</div>
+      <div class="dado"><span>Criança / Adolescente:</span> {$nomeCrianca}</div>
+      <div class="dado"><span>Município:</span> {$municipio}</div>
+    </div>
+  </div>
+
+  <div class="secao">
+    <h3>📋 Texto da Medida</h3>
+    <p>{$texto}</p>
+  </div>
+
+  <div class="assinatura-box">
+    <p>Assinatura Digital do(a) Conselheiro(a) Tutelar:</p>
+    <div style="margin: 16px 0;">
+      {$sigHtml}
+    </div>
+    <div class="nome-ass">{$assinante}</div>
+    <div class="cargo-ass">{$cargo}</div>
+    <p style="font-size:9pt;color:#666;margin-top:6px;">Documento assinado eletronicamente em {$data} às {$hora}</p>
+  </div>
+
+  <div class="footer">
+    <p>Documento gerado pelo sistema <strong>VivensiCT / Guardião Digital</strong> · ECA/SUAS Compliance</p>
+    <p>Nº {$numDoc} · Emissão: {$data} {$hora} · Validade: conforme legislação vigente</p>
+    <div class="alerta-lgpd">⚠️ LGPD: Este documento contém dados sensíveis protegidos pela Lei 13.709/2018. Manuseie com responsabilidade.</div>
+  </div>
+
+</div>
+</body>
+</html>
+HTML;
+
+        file_put_contents($filepath, $html);
+        return $filename;
+    }
+
+    /**
      * Serve o arquivo para download.
      */
     public function download(string $filename): void

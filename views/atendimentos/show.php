@@ -4,31 +4,40 @@ $subtitle = $atendimento['tipo_demanda'];
 ?>
 
 <!-- Header Info -->
-<div class="flex-between mb-6" style="gap:16px;flex-wrap:wrap;">
-  <div class="flex gap-3" style="align-items:center;flex-wrap:wrap;">
-    <span class="badge badge-<?= $atendimento['prioridade'] ?>" style="font-size:13px;padding:6px 14px;">
-      <?= ucfirst($atendimento['prioridade']) ?>
-    </span>
-    <span class="badge badge-<?= $atendimento['status'] ?>" style="font-size:13px;padding:6px 14px;">
-      <?= ucfirst(str_replace('_',' ',$atendimento['status'])) ?>
-    </span>
-    <span class="text-muted text-sm">📅 <?= date('d/m/Y', strtotime($atendimento['created_at'])) ?></span>
-    <span class="text-muted text-sm">👤 <?= e($atendimento['conselheiro']) ?></span>
-  </div>
-  <div class="flex gap-2 show-header-actions">
-    <?php if (!$analiseIA): ?>
-    <button onclick="analisarIA()" class="btn btn-primary" id="btnIA">
-      🤖 Analisar com IA
-    </button>
-    <?php else: ?>
-    <button onclick="analisarIA()" class="btn btn-secondary btn-sm">
-      🔄 Re-analisar
-    </button>
-    <?php endif; ?>
-    <button onclick="openDocModal()" class="btn btn-success">
-      📄 Gerar Documento
-    </button>
-    <a href="<?= url('/atendimentos') ?>" class="btn btn-secondary">← Voltar</a>
+<div class="card card-premium mb-6" style="padding: 24px; border: 1px solid var(--glass-border); background: var(--card-gradient);">
+  <div class="flex-between" style="gap:16px;flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:20px;">
+      <div class="section-icon purple" style="width: 50px; height: 50px; font-size: 24px; background: var(--accent); color: #fff; box-shadow: var(--premium-glow);">🛡️</div>
+      <div>
+        <h2 style="margin:0; font-size: 22px; font-weight: 800; background: linear-gradient(to right, var(--text-primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          CASO: <?= $atendimento['numero_protocolo'] ?>
+        </h2>
+        <div class="flex gap-3 mt-1" style="align-items:center;flex-wrap:wrap;">
+          <span class="badge badge-<?= $atendimento['prioridade'] ?>" style="font-size:11px;padding:4px 12px; border-radius: 50px; font-weight:800;">
+            <?= strtoupper($atendimento['prioridade']) ?>
+          </span>
+          <span class="badge" style="font-size:11px;padding:4px 12px; border-radius: 50px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-secondary);">
+            <?= strtoupper(str_replace('_',' ',$atendimento['status'])) ?>
+          </span>
+          <span class="text-muted text-xs"><i class="far fa-calendar me-1"></i> <?= date('d/m/Y', strtotime($atendimento['created_at'])) ?></span>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-2 show-header-actions">
+      <?php if (!$analiseIA): ?>
+      <button onclick="analisarIA()" class="btn btn-primary" id="btnIA" style="border-radius: 50px; font-weight:800; box-shadow: var(--premium-glow);">
+        🤖 ANALISAR COM IA
+      </button>
+      <?php else: ?>
+      <button onclick="analisarIA()" class="btn btn-secondary btn-sm" style="border-radius: 50px; font-weight:700;">
+        🔄 RE-ANALISAR
+      </button>
+      <?php endif; ?>
+      <button onclick="openDocModal()" class="btn btn-success" style="border-radius: 50px; font-weight:800;">
+        📄 GERAR DOCUMENTO
+      </button>
+      <a href="<?= url('/atendimentos') ?>" class="btn btn-ghost" style="border-radius: 50px; font-weight:700;">← VOLTAR</a>
+    </div>
   </div>
 </div>
 

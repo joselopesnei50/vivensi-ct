@@ -7,12 +7,12 @@
   const KEY = 'vct_theme';
   const html = document.documentElement;
 
-  // Aplica tema salvo imediatamente (evita flash)
-  const saved = localStorage.getItem(KEY) || 'dark';
+  // Aplica tema salvo imediatamente (evita flash) — padrão: claro
+  const saved = localStorage.getItem(KEY) || 'light';
   html.setAttribute('data-theme', saved);
 
   window.toggleTheme = function () {
-    const current = html.getAttribute('data-theme') || 'dark';
+    const current = html.getAttribute('data-theme') || 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem(KEY, next);

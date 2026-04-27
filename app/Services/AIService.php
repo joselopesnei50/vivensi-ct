@@ -18,6 +18,91 @@ class AIService
         $this->url    = $provCfg['url'];
     }
 
+    /**
+     * Gera o texto formal de uma medida de proteção de campo.
+     * Usado quando o conselheiro está em campo e precisa documentar uma medida rapidamente.
+     */
+    public function gerarTextoMedida(array $dados): array
+    {
+        $tipo       = $dados['tipo_medida'] ?? '';
+        $artigo     = $dados['artigo_eca'] ?? '';
+        $situacao   = $dados['situacao_relatada'] ?? '';
+        $nomeCrianca= $dados['nome_crianca'] ?? 'a criança/adolescente';
+        $municipio  = $dados['municipio'] ?? 'município';
+        $conselheiro= $dados['conselheiro'] ?? 'Conselheiro(a) Tutelar';
+        $cargo      = $dados['cargo'] ?? 'Conselheiro(a) Tutelar';
+        $data       = date('d/m/Y');
+        $hora       = date('H:i');
+
+        $systemPrompt = <<<SYS
+Você é um assistente jurídico especializado em direitos da criança e do adolescente.
+Gera documentos formais para Conselheiros Tutelares, com linguagem técnica e fundamentação no ECA (Lei 8.069/90).
+Retorne APENAS JSON puro válido — sem markdown, sem texto extra.
+SYS;
+
+        $userPrompt = <<<PROMPT
+O Conselheiro Tutelar está em campo e precisa lavrar uma medida de proteção urgente.
+
+**Dados informados:**
+- Município: {$municipio}
+- Nome da criança/adolescente: {$nomeCrianca}
+- Tipo de medida: {$tipo}
+- Artigo do ECA: {$artigo}
+- Situação relatada pelo conselheiro: {$situacao}
+- Conselheiro responsável: {$conselheiro}
+- Data/Hora: {$data} às {$hora}
+
+**Gere o documento no JSON abaixo (exatamente, sem campos extras):**
+{
+  "texto_medida": "Texto formal e completo da medida de proteção, em linguagem jurídica adequada ao ECA. Deve conter: identificação do conselheiro, data, município, descrição dos fatos, fundamentação legal (artigos do ECA), a medida determinada e prazo se aplicável. Mínimo de 3 parágrafos.",
+  "fundamentacao": "Artigos do ECA e outras leis aplicadas (ex: Art. 98, Art. 101 inciso I do ECA; Art. 227 da CF/88)",
+  "prazo_sugerido": "Ex: 15 dias, imediato, 30 dias",
+  "orgaos_notificar": ["CRAS", "CREAS", "Delegacia", "Vara da Infância"]
+}
+PROMPT;
+
+        $response = $this->callAPI($systemPrompt, $userPrompt);
+
+        try {
+            $data   = json_decode($response, true);
+            // Extract content from provider wrapper
+            $content = match ($this->provider) {
+                'openai', 'deepseek' => $data['choices'][0]['message']['content'] ?? $response,
+                'gemini'             => $data['candidates'][0]['content']['parts'][0]['text'] ?? $response,
+                default              => $response,
+            };
+            $parsed = json_decode($content, true);
+            if ($parsed && json_last_error() === JSON_ERROR_NONE) {
+                return $parsed;
+            }
+            // Strip markdown if present
+            if (preg_match('/```(?:json)?\s*([\s\S]+?)\s*```/', $content, $m)) {
+                $parsed = json_decode($m[1], true);
+                if ($parsed) return $parsed;
+            }
+        } catch (\Exception $e) {}
+
+        // Fallback demo
+        return $this->getDemoMedida($dados);
+    }
+
+    private function getDemoMedida(array $dados): array
+    {
+        $tipo     = $dados['tipo_medida'] ?? 'Medida de Proteção';
+        $artigo   = $dados['artigo_eca'] ?? 'Art. 101 do ECA';
+        $municipio= $dados['municipio'] ?? 'município';
+        $cons     = $dados['conselheiro'] ?? 'Conselheiro(a) Tutelar';
+        $data     = date('d/m/Y');
+        $hora     = date('H:i');
+
+        return [
+            'texto_medida' => "MEDIDA DE PROTEÇÃO — {$tipo}\n\nEm {$data}, às {$hora}, no exercício das atribuições conferidas pelo Art. 136 da Lei Federal nº 8.069/1990 (Estatuto da Criança e do Adolescente), o(a) Conselheiro(a) Tutelar {$cons}, do Município de {$municipio}, determina a aplicação da presente medida de proteção.\n\nDOS FATOS: {$dados['situacao_relatada']}\n\nDA FUNDAMENTAÇÃO JURÍDICA: A situação constatada configura violação dos direitos da criança/adolescente, nos termos do Art. 98 do ECA, sendo imperativa a aplicação da medida protetiva prevista no {$artigo}, visando assegurar a proteção integral e a garantia dos direitos fundamentais.\n\nDA MEDIDA DETERMINADA: Determina-se, com fundamento no {$artigo} do ECA, a aplicação da medida de {$tipo}, devendo ser cumprida no prazo estabelecido, sob pena de comunicação ao Ministério Público para as providências cabíveis.",
+            'fundamentacao'    => "{$artigo} — ECA (Lei 8.069/90); Art. 98 do ECA; Art. 227 da CF/88",
+            'prazo_sugerido'   => 'Imediato',
+            'orgaos_notificar' => ['CRAS', 'CREAS'],
+        ];
+    }
+
     public function analisarCaso(array $dados): array
     {
         [$systemPrompt, $userPrompt] = $this->buildPrompt($dados);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +8,12 @@
 <!-- Aplica tema antes de qualquer render (evita flash) -->
 <script>
   (function(){
-    var t = localStorage.getItem('vct_theme') || 'dark';
+    var t = localStorage.getItem('vct_theme') || 'light';
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
 <link rel="stylesheet" href="<?= url('/css/app.css') ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 <meta name="csrf" content="<?= \App\Core\Request::csrf() ?>">
@@ -34,11 +35,20 @@
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <!-- Logo -->
-  <div class="sidebar-logo">
-    <img src="<?= url('/images/logo.png') ?>" alt="VivensiCT" style="height:38px;width:auto;object-fit:contain;flex-shrink:0;">
+  <div class="sidebar-logo" style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+    <img src="<?= url('/images/logo.png') ?>" alt="VivensiCT" style="height:42px;width:auto;object-fit:contain;flex-shrink:0; filter: drop-shadow(0 0 8px rgba(99,102,241,0.5));">
     <div>
-      <div class="logo-text">VivensiCT</div>
-      <div class="logo-sub">ECA · SUAS · LGPD</div>
+      <div class="logo-text" style="font-size: 18px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">VivensiCT</div>
+      <div class="logo-sub" style="letter-spacing: 2px;">MODERN COMMAND</div>
+    </div>
+  </div>
+
+  <!-- Donation Card — topo do menu, abaixo do logo -->
+  <div style="padding:16px 12px 10px;">
+    <div class="donation-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.1) 100%); border: 1px solid var(--accent); box-shadow: 0 0 15px rgba(99,102,241,0.1);">
+      <h4 style="color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">💎 VIP Supporter</h4>
+      <p style="color: var(--text-secondary); opacity: 0.8;">Ajude a manter o sistema gratuito e evolua conosco.</p>
+      <a href="#" class="btn-donation" onclick="openDonation();return false;" style="border-radius: 50px;">Apoiar Agora</a>
     </div>
   </div>
 
@@ -64,6 +74,12 @@
     <a href="<?= url('/atendimentos/novo') ?>" class="nav-item <?= isActive('/atendimentos/novo') ?>">
       <span class="nav-icon">➕</span> Novo Atendimento
     </a>
+    <a href="<?= url('/medidas-campo') ?>" class="nav-item <?= isActive('/medidas-campo') ?>">
+      <span class="nav-icon">📝</span> Medidas de Campo
+    </a>
+    <a href="<?= url('/agenda') ?>" class="nav-item <?= isActive('/agenda') ?>">
+      <span class="nav-icon">📅</span> Agenda
+    </a>
     <a href="<?= url('/chamados') ?>" class="nav-item <?= isActive('/chamados') ?>">
       <span class="nav-icon">🎫</span> Suporte
     </a>
@@ -78,13 +94,6 @@
 
   <!-- Sidebar Footer -->
   <div class="sidebar-footer">
-    <!-- Donation Card -->
-    <div class="donation-card">
-      <h4>💙 Apoie o VivensiCT</h4>
-      <p>Sistema gratuito para Conselhos Tutelares de todo o Brasil</p>
-      <a href="#" class="btn-donation" onclick="openDonation();return false;">Contribuir via PIX</a>
-    </div>
-
     <!-- Legal Links -->
     <div style="display:flex;justify-content:center;gap:14px;padding:8px 0;margin-top:6px;">
       <a href="<?= url('/privacidade') ?>" target="_blank"
@@ -118,25 +127,25 @@
 <!-- MAIN CONTENT -->
 <main class="main-content">
   <!-- Topbar -->
-  <header class="topbar">
+  <header class="topbar" style="backdrop-filter: blur(20px); background: var(--glass-bg); border-bottom: 1px solid var(--glass-border);">
     <div class="topbar-title">
-      <h1><?= e($title ?? 'Dashboard') ?></h1>
+      <h1 style="background: linear-gradient(to right, var(--text-primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= e($title ?? 'Dashboard') ?></h1>
       <?php if (isset($subtitle)): ?>
-        <p><?= e($subtitle) ?></p>
+        <p style="font-weight: 500; opacity: 0.7;"><?= e($subtitle) ?></p>
       <?php endif; ?>
     </div>
     <div class="topbar-actions">
       <!-- Mobile menu toggle -->
-      <button id="sidebarToggle" class="btn btn-ghost btn-icon" title="Menu">☰</button>
+      <button id="sidebarToggle" class="btn btn-ghost btn-icon" title="Menu" style="border-radius: 50%;">☰</button>
 
       <!-- Theme Toggle -->
-      <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema claro/escuro">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema claro/escuro" style="border-radius: 50%; width: 36px; height: 36px;">
         <span class="icon-dark">🌙</span>
         <span class="icon-light">☀️</span>
       </button>
 
-      <a href="<?= url('/atendimentos/novo') ?>" class="btn btn-primary btn-sm topbar-new-btn">
-        ➕ Novo Atendimento
+      <a href="<?= url('/atendimentos/novo') ?>" class="btn btn-primary btn-sm topbar-new-btn" style="border-radius: 50px; padding: 8px 20px;">
+        <i class="fas fa-plus"></i> Novo Atendimento
       </a>
     </div>
   </header>
