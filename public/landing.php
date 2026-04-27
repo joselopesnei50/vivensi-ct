@@ -1440,8 +1440,8 @@ footer {
     <div class="step-card">
       <div class="step-num-bg">03</div>
       <div class="step-icon" style="font-size:13px;font-weight:900;color:#60a5fa;letter-spacing:-.3px;">DOC</div>
-      <h3>Documente e Assine</h3>
-      <p>Gere minutas de relatórios e ofícios. Colete assinatura digital na tela (mobile). O documento é salvo com validade jurídica e removido automaticamente após 3 dias.</p>
+      <h3>Mapa Mental & Encaminhamento</h3>
+      <p>Bruce AI gera um mapa mental completo do caso: para onde encaminhar, qual órgão acionar, qual artigo do ECA aplicar e com qual urgência — tudo estruturado e pronto para o Conselheiro agir com segurança.</p>
     </div>
   </div>
 </section>
