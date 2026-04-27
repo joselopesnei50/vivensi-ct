@@ -1798,10 +1798,10 @@ footer {
       o encaminhamento correto e gera a minuta. É como ter um especialista jurídico 24 horas.
     </p>
     <div class="quote-author">
-      <div class="q-avatar">M</div>
+      <div class="q-avatar">J</div>
       <div>
-        <div class="q-name">Maria Silva</div>
-        <div class="q-role">Conselheira Tutelar · São Paulo/SP · CT-001/2024</div>
+        <div class="q-name">José Lopes</div>
+        <div class="q-role">Conselheiro Tutelar · Araraquara/SP</div>
       </div>
     </div>
   </div>
